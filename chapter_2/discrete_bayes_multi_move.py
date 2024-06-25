@@ -35,18 +35,20 @@ def lh_hallway(hall, z, z_prob):
     return likelihood
 
 
-
+# Setup 
 hallway = np.array([1, 1, 0, 0, 0, 0, 0, 0, 1, 0])
-
 prior = np.array([0.1] * 10)
-
+# At position 0
+# z is our measurement, not our movement
 likelihood = lh_hallway(hallway, z=1, z_prob=0.75)
-
 posterior = update(likelihood, prior)
 
 kernel = [0.1, 0.8, 0.1]
-
+# Now we have a new prior, based on a move to the right
 prior = predict(posterior, 1, kernel)
+# We take a measurement, and it shows there's a door
+likelihood = lh_hallway(hallway, z=1, z_prob=0.75)
+posterior = update(likelihood, prior)
 
 x = np.linspace(0, len(hallway) - 1, len(hallway))
 
